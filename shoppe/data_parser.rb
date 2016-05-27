@@ -1,20 +1,22 @@
-require 'JSON'
+require "json"
 
-require "./item"
-require "./user"
-require "./data_parser"
-require "./transaction_parser"
+
 
 class DataParser
 
-attr_reader :users, :path, :items
+attr_reader :users, :path, :items, :data
+
+def file_path file_name
+  File.expand_path "../data/#{file_name}.json", __FILE__
+end
 
   def initialize path
     @users = []
     @path = path
-    @data = JSON.parse File.read path
     @items = []
+    @data = JSON.parse(File.read path)
   end
+
 
   def parse!
 

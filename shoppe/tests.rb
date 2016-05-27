@@ -10,6 +10,7 @@ require "./item"
 require "./user"
 require "./data_parser"
 require "./transaction_parser"
+require "./transaction"
 
 
 class Minitest::Test
