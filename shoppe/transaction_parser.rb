@@ -3,10 +3,10 @@ require "json"
 class TransactionParser
 
 
-  attr_reader :path, :transaction
+  attr_reader :path, :transactions
 
   def initialize path
-    @transaction = []
+    @transactions = []
     @path = path
     @data = JSON.parse(File.read path)
   end
@@ -15,8 +15,9 @@ class TransactionParser
 
     @data.each do |x|
       # binding.pry
-      @transaction.push (Transaction.new x.values[0],x.values[1],x.values[2], x.values[3] )
+      @transactions.push (Transaction.new x.values[0],x.values[1],x.values[2], x.values[3] )
     end
+    @transactions
   end
 
 end
