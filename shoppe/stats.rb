@@ -6,7 +6,6 @@ require "./transaction_parser"
 require "./transaction"
 require 'pry'
 
-
 def file_path file_name
   File.expand_path "../data/#{file_name}.json", __FILE__
 end
@@ -40,50 +39,94 @@ def find_frequent_buyer
 end
 
 def ergo_lamps_sold
-  purchases = {}
-  purchases.default = 0
-  wanteditem = 0
 
-  (t.transactions).each do |x|
+lamps = 0
+itemid = nil
 
-    purchases[x.item_id] += x.quantity
+d.items.each do |item|
+
+  if item.name == "Ergonomic Rubber Lamp"
+    itemid = item.id
   end
-
-  d.items.each do |x|
-    if x.name == "Ergonomic Rubber Lamp"
-      wanteditem = x.id
-    end
-  end
-
-  puts "We sold #{purchases[wanteditem]} Ergonomic Rubber Lamps"
 end
 
+  t.transactions.each do |x|
+      if x.item_id == itemid
+        lamps += x.quantity
+      end
+
+  end
+  puts "We sold #{lamps} Ergonomic Rubber Lamps"
+ end
+
 def sold_from_Tools
-  tools = []
-  d.items.each do |x|
-    if x.category == "Tools"
-
-      tools.push(x)
+  tools = 0
+  t.transactions.each do |x|
+    d.items.each do |y|
+      if (y.id == x.item_id) && (y.category.include?"Tools")
+        tools += x.quantity
+      end
     end
-
   end
 
   puts "We sold #{tools.count} items from the Tools category."
 end
 
-def total_revenue
-  revenue = 0
+#
+# def total_revenue
+#   revenue = 0
+#
+#   t.transactions.each do |x|
+#     d.items.each do |y|
+#       if x.item_id == y.id
+#         revenue += y.price * x.quantity
+#       end
+#
+#     end
+#   end
+#
+#   puts "Total revenue is: $#{revenue.round(2)}."
+# end
+#
+# # * Harder: the highest grossing category was __
+# categories = []
+# parsed_categories_revenue = {}
+# revenue_by_category = {}
+# revenue_by_category.default = 0
+#
+#
+# d.items.each do |x|
+#   categories.push(x.category)
+# end
+#
+# categories.each do |x|
+#   if x.include? " & "
+#     x.delete! " & "
+#   end
+# end
+#
+# categories = categories.join.split /(?=[A-Z])/
+# categories.each do |x|
+#   parsed_categories_revenue[x] = 0
+# end
+#
+#
+#   t.transactions.each do |x|
+#     d.items.each do |y|
+#       if x.item_id == y.id
+#         revenue_by_category[y.category] += y.price * x.quantity
+#       end
+#
+#     end
+#   end
+#
+# categories.each do |x|
+#   revenue_by_category.each do |key, value|
+#     if key.include? x
+#       parsed_categories_revenue[x] += value
+#     end
+#   end
+# end
 
-  t.transactions.each do |x|
-    d.items.each do |y|
-      if x.item_id == y.id
-        revenue += y.price * x.quantity
-      end
 
-    end
-  end
-
-  puts "Total revenue is: $#{revenue}."
-end
-
-* Harder: the highest grossing category was __
+binding.pry
