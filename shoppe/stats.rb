@@ -40,24 +40,23 @@ end
 
 def ergo_lamps_sold
 
-lamps = 0
-itemid = nil
+  lamps = 0
+  itemid = nil
 
-d.items.each do |item|
+  d.items.each do |item|
 
-  if item.name == "Ergonomic Rubber Lamp"
-    itemid = item.id
+    if item.name == "Ergonomic Rubber Lamp"
+      itemid = item.id
+    end
   end
-end
 
   t.transactions.each do |x|
-      if x.item_id == itemid
-        lamps += x.quantity
-      end
-
+    if x.item_id == itemid
+      lamps += x.quantity
+    end
   end
   puts "We sold #{lamps} Ergonomic Rubber Lamps"
- end
+end
 
 def sold_from_Tools
   tools = 0
@@ -72,61 +71,65 @@ def sold_from_Tools
   puts "We sold #{tools.count} items from the Tools category."
 end
 
-#
-# def total_revenue
-#   revenue = 0
-#
-#   t.transactions.each do |x|
-#     d.items.each do |y|
-#       if x.item_id == y.id
-#         revenue += y.price * x.quantity
-#       end
-#
-#     end
-#   end
-#
-#   puts "Total revenue is: $#{revenue.round(2)}."
-# end
-#
-# # * Harder: the highest grossing category was __
-# categories = []
-# parsed_categories_revenue = {}
-# revenue_by_category = {}
-# revenue_by_category.default = 0
-#
-#
-# d.items.each do |x|
-#   categories.push(x.category)
-# end
-#
-# categories.each do |x|
-#   if x.include? " & "
-#     x.delete! " & "
-#   end
-# end
-#
-# categories = categories.join.split /(?=[A-Z])/
-# categories.each do |x|
-#   parsed_categories_revenue[x] = 0
-# end
-#
-#
-#   t.transactions.each do |x|
-#     d.items.each do |y|
-#       if x.item_id == y.id
-#         revenue_by_category[y.category] += y.price * x.quantity
-#       end
-#
-#     end
-#   end
-#
-# categories.each do |x|
-#   revenue_by_category.each do |key, value|
-#     if key.include? x
-#       parsed_categories_revenue[x] += value
-#     end
-#   end
-# end
+
+def total_revenue
+  revenue = 0
+
+  t.transactions.each do |x|
+    d.items.each do |y|
+      if x.item_id == y.id
+        revenue += y.price * x.quantity
+      end
+
+    end
+  end
+
+  puts "Total revenue is: $#{revenue.round(2)}."
+end
+
+# * Harder: the highest grossing category was __
+
+# list of categories
+# for each transaction,
+  #look at the category,
+  #for each category, if it is contained in t.category, add price * quantity to it
+
+categories = []
+parsed_categories_revenue = {}
+revenue_by_category = {}
+revenue_by_category.default = 0
 
 
-binding.pry
+d.items.each do |x|
+  categories.push(x.category)
+end
+
+categories.each do |x|
+  if x.include? " & "
+    x.delete! " & "
+  end
+end
+
+categories = categories.join.split /(?=[A-Z])/
+categories.each do |x|
+  parsed_categories_revenue[x] = 0
+end
+
+
+  t.transactions.each do |x|
+    parsed_categories_revenue.each do |key,value|
+    d.items.each do |y|
+      if (x.item_id == y.id) && (y.category.include? key)
+        parsed_categories_revenue[key] += (y.price * x.quantity)
+      end
+
+    end
+
+    end
+  end
+
+  highest_cat = parsed_categories_revenue.key(parsed_categories_revenue.values.max)
+
+puts "The highest grossing category is #{highest_cat}."
+
+# binding.pry
