@@ -11,6 +11,7 @@ require "./user"
 require "./data_parser"
 require "./transaction_parser"
 require "./transaction"
+require "./stats"
 
 
 class Minitest::Test
@@ -20,6 +21,7 @@ class Minitest::Test
     File.expand_path "../tests/#{file_name}.json", __FILE__
   end
 end
+
 
 
 class ItemTests < Minitest::Test
@@ -102,7 +104,6 @@ class TransactionParserTests < Minitest::Test
     assert_equal 5, p.transaction.count
   end
 
-focus
   def test_can_parse_tuesday
     p = TransactionParser.new file_path("tuesday")
     p.parse!

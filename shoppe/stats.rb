@@ -19,7 +19,7 @@ data.parse!
 
 class StatTools
 
-attr_reader :transactions, :data
+  attr_reader :transactions, :data
 
   def initialize transactions, data
     @transactions = transactions
@@ -47,6 +47,7 @@ attr_reader :transactions, :data
     end
 
     puts "The customer that made the most orders was #{buyername}."
+    return buyername
   end
 
   def ergo_lamps_sold
@@ -67,6 +68,7 @@ attr_reader :transactions, :data
       end
     end
     puts "We sold #{lamps} Ergonomic Rubber Lamps"
+    return lamps
   end
 
   def sold_from_tools
@@ -80,6 +82,7 @@ attr_reader :transactions, :data
     end
 
     puts "We sold #{tools} items from the Tools category."
+    return tools
   end
 
   def total_revenue
@@ -95,6 +98,7 @@ attr_reader :transactions, :data
     end
 
     puts "Total revenue is: $#{revenue.round(2)}."
+    return revenue.round(2)
   end
 
   def highest_grossing_category
@@ -134,12 +138,14 @@ attr_reader :transactions, :data
     highest_cat = parsed_categories_revenue.key(parsed_categories_revenue.values.max)
 
     puts "The highest grossing category is #{highest_cat}."
+    return highest_cat
 
   end
 
 end
 
 shoppe = StatTools.new transactions, data
+
 question1 = shoppe.find_frequent_buyer
 question2 = shoppe.ergo_lamps_sold
 question3 = shoppe.sold_from_tools
